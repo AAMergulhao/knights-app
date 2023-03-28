@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "@infra/*": [
+        "./infra/*"
+      ],
+      "@lib/*": [
+        "./lib/*"
+      ],
+      "@tests/*": [
+        "../tests/*"
+      ],
+      "@services/*": [
+        "./services/*"
+      ],
+      "@api/*": [
+        "./api/*"
+      ]
+    }
+  },
+  "ts-node": {
+    "require": [
+      "tsconfig-paths/register"
+    ]
+  }
+}

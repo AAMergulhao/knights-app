@@ -1,0 +1,7 @@
+node_modules
+dist
+.env
+.vscode
+*.data.json
+coverage/
+.env.development

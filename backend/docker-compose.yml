@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    ports:
+      - 8500:8500
+    volumes:
+      - .:/node/knights-service
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+    links:
+      - mongo
+    networks:
+      - knights-service-network
+
+  mongo:
+    image: mongo
+    container_name: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    ports:
+      - "27017:27017"
+    volumes:
+      - /usr/local/mongodb:/knights-service
+    networks:
+      - knights-service-network
+
+networks: 
+    knights-service-network:
+      driver: bridge

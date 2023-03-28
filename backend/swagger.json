@@ -1,0 +1,334 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Knights API"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8500",
+      "description": "Local"
+    }
+  ],
+  "paths": {
+    "/api/knights": {
+      "post": {
+        "tags": [
+          "Knight"
+        ],
+        "summary": "Create a new knight",
+        "description": "Creates a new knight object using the provided data",
+        "operationId": "createKnight",
+        "requestBody": {
+          "description": "New knight object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Knight"
+              },
+              "examples": {
+                "example1": {
+                  "value": {
+                    "name": "Mock",
+                    "nickname": "mockKnight",
+                    "birthday": "",
+                    "weapons": [
+                      {
+                        "name": "sword",
+                        "mod": 3,
+                        "attr": "strength",
+                        "equipped": true
+                      }
+                    ],
+                    "attributes": {
+                      "strength": 0,
+                      "dexterity": 0,
+                      "constitution": 0,
+                      "intelligence": 0,
+                      "wisdom": 0,
+                      "charisma": 0
+                    },
+                    "keyAttribute": "strength"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Knight created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Knight"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Knight"
+        ],
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "If set to 'heroes' the endpoint will return only knights that are in the hall of heroes",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "heroes"
+            }
+          }
+        ],
+        "summary": "Get formated knights",
+        "description": "Return a list of formated lights",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FormatedKnight"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/knights/{id}": {
+      "delete": {
+        "tags": [
+          "Knight"
+        ],
+        "summary": "Delete a knight",
+        "description": "Send a Knight to the hall of heroes",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Knight ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Knight arrived at the hall of heroes"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Knight"
+        ],
+        "summary": "Update knight nickname",
+        "description": "Updates a knight nickname using the provided data",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Knight ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        
+        "requestBody": {
+          "description": "New knight object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "nickname": {
+                  "type": "string",
+                  "example": "Test-nickname"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Knight created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Knight"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Knight"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Knight ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "summary": "Get knight",
+        "description": "Return a knight based on the provided id",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Knight"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Knight": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "507f1f77bcf86cd799439011"
+          },
+          "name": {
+            "type": "string",
+            "example": "Mock"
+          },
+          "nickname": {
+            "type": "string",
+            "example": "mockKnight"
+          },
+          "birthday": {
+            "type": "string",
+            "example": ""
+          },
+          "weapons": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "sword"
+                },
+                "mod": {
+                  "type": "integer",
+                  "example": 3
+                },
+                "attr": {
+                  "type": "string",
+                  "example": "strength"
+                },
+                "equipped": {
+                  "type": "boolean",
+                  "example": true
+                }
+              }
+            }
+          },
+          "attributes": {
+            "type": "object",
+            "properties": {
+              "strength": {
+                "type": "integer",
+                "example": 0
+              },
+              "dexterity": {
+                "type": "integer",
+                "example": 0
+              },
+              "constitution": {
+                "type": "integer",
+                "example": 0
+              },
+              "intelligence": {
+                "type": "integer",
+                "example": 0
+              },
+              "wisdom": {
+                "type": "integer",
+                "example": 0
+              },
+              "charisma": {
+                "type": "integer",
+                "example": 0
+              }
+            }
+          },
+          "keyAttribute": {
+            "type": "string",
+            "example": "strength"
+          }
+        }
+      },
+      "FormatedKnight": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "nickname": {
+            "type": "string"
+          },
+          "weapons": {
+            "type": "number"
+          },
+          "age": {
+            "type": "number"
+          },
+          "exp": {
+            "type": "number"
+          },
+          "attack": {
+            "type": "number"
+          }
+        }
+      }
+    }
+  }
+}
